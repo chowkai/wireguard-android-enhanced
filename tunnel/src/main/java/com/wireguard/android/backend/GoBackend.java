@@ -348,6 +348,16 @@ public final class GoBackend implements Backend {
 
             service.protect(wgGetSocketV4(currentTunnelHandle));
             service.protect(wgGetSocketV6(currentTunnelHandle));
+            
+            // SOCKS5 Enhancement: Start SOCKS5 proxy after tunnel is up
+            try {
+                Class<?> initializerClass = Class.forName("com.wireguard.android.tunnel.Socks5Initializer");
+                java.lang.reflect.Method method = initializerClass.getMethod("onTunnelStarted");
+                method.invoke(null);
+                Log.i(TAG, "SOCKS5 Enhancement: Tunnel started, SOCKS5 proxy initialized");
+            } catch (Exception e) {
+                Log.w(TAG, "SOCKS5 Enhancement: Could not initialize SOCKS5 proxy", e);
+            }
         } else {
             if (currentTunnelHandle == -1) {
                 Log.w(TAG, "Tunnel already down");
@@ -358,6 +368,17 @@ public final class GoBackend implements Backend {
             currentTunnelHandle = -1;
             currentConfig = null;
             wgTurnOff(handleToClose);
+            
+            // SOCKS5 Enhancement: Stop SOCKS5 proxy when tunnel goes down
+            try {
+                Class<?> initializerClass = Class.forName("com.wireguard.android.tunnel.Socks5Initializer");
+                java.lang.reflect.Method method = initializerClass.getMethod("onTunnelStopped");
+                method.invoke(null);
+                Log.i(TAG, "SOCKS5 Enhancement: Tunnel stopped, SOCKS5 proxy stopped");
+            } catch (Exception e) {
+                Log.w(TAG, "SOCKS5 Enhancement: Could not stop SOCKS5 proxy", e);
+            }
+            
             try {
                 vpnService.get(0, TimeUnit.NANOSECONDS).stopSelf();
             } catch (final TimeoutException ignored) { }
