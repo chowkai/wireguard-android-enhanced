@@ -73,10 +73,7 @@ dependencies {
     testImplementation(libs.junit)
     
     // SOCKS5 Proxy Library (Phase 2 Enhancement)
-    // Using pure Java SOCKS5 implementation
-    implementation("com.github.jsocks:jsocks:1.0.0") {
-        exclude(group = "org.json", module = "json")
-    }
+    // Pure Java implementation - no external dependencies needed
 }
 
 publishing {
