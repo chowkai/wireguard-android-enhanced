@@ -76,7 +76,7 @@ class Socks5ProxyService {
                     try {
                         val clientSocket = serverSocket?.accept()
                         if (clientSocket != null) {
-                            Log.d(TAG, "Client connected: ${clientSocket.remoteAddress}")
+                            Log.d(TAG, "Client connected")
                             handleClient(clientSocket, cfg)
                         }
                     } catch (e: IOException) {
