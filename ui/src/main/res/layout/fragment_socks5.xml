@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/socks5_title"
+            android:text="SOCKS5 代理"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp" />
@@ -30,7 +30,7 @@
             android:id="@+id/switch_enable_socks5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/socks5_enable"
+            android:text="启用 SOCKS5 代理"
             android:checked="false"
             android:layout_marginBottom="24dp" />
 
@@ -40,7 +40,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/socks5_server_hint"
+            android:hint="服务器地址"
             android:layout_marginBottom="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -57,7 +57,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/socks5_port_hint"
+            android:hint="端口"
             android:layout_marginBottom="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -75,7 +75,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/socks5_username_hint"
+            android:hint="用户名 (可选)"
             android:layout_marginBottom="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -92,7 +92,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/socks5_password_hint"
+            android:hint="密码 (可选)"
             app:endIconMode="password_toggle"
             android:layout_marginBottom="24dp">
 
@@ -109,7 +109,7 @@
             android:id="@+id/button_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/socks5_save"
+            android:text="保存并连接"
             android:textSize="16sp" />
 
         <!-- Status Text -->

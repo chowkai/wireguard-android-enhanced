@@ -78,10 +78,10 @@ class Socks5SettingsFragment : Fragment() {
         
         // Update UI
         switchEnable.isChecked = config.enabled
-        editServer.setText(config.server)
-        editPort.setText(config.port.toString())
-        editUsername.setText(config.username)
-        editPassword.setText(config.password)
+        editServer?.setText(config.server)
+        editPort?.setText(config.port.toString())
+        editUsername?.setText(config.username)
+        editPassword?.setText(config.password)
         
         updateStatus()
     }
