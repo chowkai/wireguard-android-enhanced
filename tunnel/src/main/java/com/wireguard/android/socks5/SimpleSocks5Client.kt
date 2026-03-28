@@ -66,7 +66,7 @@ class SimpleSocks5Client(
                     try {
                         val clientSocket = serverSocket?.accept()
                         if (clientSocket != null) {
-                            Log.d(TAG, "Client connected from: ${clientSocket.remoteAddress}")
+                            Log.d(TAG, "Client connected")
                             Thread {
                                 handleClient(clientSocket)
                             }.start()
