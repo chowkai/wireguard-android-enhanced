@@ -71,6 +71,9 @@ dependencies {
     implementation(libs.androidx.collection)
     compileOnly(libs.jsr305)
     testImplementation(libs.junit)
+    
+    // SOCKS5 Proxy Library (Phase 2 Enhancement)
+    implementation("com.github.brian-gheorgiu:jsocks:1.0.0")
 }
 
 publishing {

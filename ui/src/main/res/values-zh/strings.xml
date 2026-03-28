@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- SOCKS5 Proxy Settings -->
+    <string name="socks5_title">SOCKS5 代理</string>
+    <string name="socks5_enable">启用 SOCKS5 代理</string>
+    <string name="socks5_server_hint">服务器地址</string>
+    <string name="socks5_port_hint">端口</string>
+    <string name="socks5_username_hint">用户名 (可选)</string>
+    <string name="socks5_password_hint">密码 (可选)</string>
+    <string name="socks5_save">保存并连接</string>
+    <string name="socks5_status_connected">已连接：%1$s</string>
+    <string name="socks5_status_disconnected">未连接</string>
+    <string name="socks5_status_error">连接失败</string>
+    <string name="socks5_error_invalid_config">错误：服务器地址不能为空</string>
+</resources>
