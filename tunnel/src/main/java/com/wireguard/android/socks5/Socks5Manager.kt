@@ -68,5 +68,5 @@ object Socks5Manager {
     /**
      * 检查 SOCKS5 是否已启用
      */
-    fun isSocks5Enabled(): Boolean = config.enabled && proxyService.isConnected()
+    fun isSocks5Enabled(): Boolean = config.enabled && proxyService.isRunning()
 }
