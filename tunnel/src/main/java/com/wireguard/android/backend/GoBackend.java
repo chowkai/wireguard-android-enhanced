@@ -349,15 +349,9 @@ public final class GoBackend implements Backend {
             service.protect(wgGetSocketV4(currentTunnelHandle));
             service.protect(wgGetSocketV6(currentTunnelHandle));
             
-            // SOCKS5 Enhancement: Start SOCKS5 proxy after tunnel is up
-            try {
-                Class<?> initializerClass = Class.forName("com.wireguard.android.tunnel.Socks5Initializer");
-                java.lang.reflect.Method method = initializerClass.getMethod("onTunnelStarted");
-                method.invoke(null);
-                Log.i(TAG, "SOCKS5 Enhancement: Tunnel started, SOCKS5 proxy initialized");
-            } catch (Exception e) {
-                Log.w(TAG, "SOCKS5 Enhancement: Could not initialize SOCKS5 proxy", e);
-            }
+            // SOCKS5 Enhancement: DO NOT start SOCKS5 here (VPN service process)
+            // SOCKS5 should run in UI process (normal app) to use system routing
+            Log.i(TAG, "SOCKS5 Enhancement: Tunnel started, SOCKS5 will be started in UI process");
         } else {
             if (currentTunnelHandle == -1) {
                 Log.w(TAG, "Tunnel already down");
@@ -369,15 +363,9 @@ public final class GoBackend implements Backend {
             currentConfig = null;
             wgTurnOff(handleToClose);
             
-            // SOCKS5 Enhancement: Stop SOCKS5 proxy when tunnel goes down
-            try {
-                Class<?> initializerClass = Class.forName("com.wireguard.android.tunnel.Socks5Initializer");
-                java.lang.reflect.Method method = initializerClass.getMethod("onTunnelStopped");
-                method.invoke(null);
-                Log.i(TAG, "SOCKS5 Enhancement: Tunnel stopped, SOCKS5 proxy stopped");
-            } catch (Exception e) {
-                Log.w(TAG, "SOCKS5 Enhancement: Could not stop SOCKS5 proxy", e);
-            }
+            // SOCKS5 Enhancement: DO NOT stop SOCKS5 here (VPN service process)
+            // SOCKS5 runs in UI process and will be stopped there
+            Log.i(TAG, "SOCKS5 Enhancement: Tunnel stopped, SOCKS5 will be stopped in UI process");
             
             try {
                 vpnService.get(0, TimeUnit.NANOSECONDS).stopSelf();

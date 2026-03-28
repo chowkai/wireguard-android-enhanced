@@ -58,6 +58,31 @@ class ObservableTunnel internal constructor(
         if (state != Tunnel.State.UP) onStatisticsChanged(null)
         this.state = state
         notifyPropertyChanged(BR.state)
+        
+        // SOCKS5 Enhancement: Start/stop SOCKS5 in UI process (normal app)
+        // This ensures SOCKS5 traffic uses system routing (goes through WireGuard tunnel)
+        if (state == Tunnel.State.UP) {
+            Log.i("SOCKS5", "Tunnel UP in UI process, starting SOCKS5...")
+            try {
+                val initializerClass = Class.forName("com.wireguard.android.tunnel.Socks5Initializer")
+                val method = initializerClass.getMethod("onTunnelStarted")
+                method.invoke(null)
+                Log.i("SOCKS5", "SOCKS5 started in UI process")
+            } catch (e: Exception) {
+                Log.w("SOCKS5", "Failed to start SOCKS5 in UI process", e)
+            }
+        } else if (state == Tunnel.State.DOWN) {
+            Log.i("SOCKS5", "Tunnel DOWN in UI process, stopping SOCKS5...")
+            try {
+                val initializerClass = Class.forName("com.wireguard.android.tunnel.Socks5Initializer")
+                val method = initializerClass.getMethod("onTunnelStopped")
+                method.invoke(null)
+                Log.i("SOCKS5", "SOCKS5 stopped in UI process")
+            } catch (e: Exception) {
+                Log.w("SOCKS5", "Failed to stop SOCKS5 in UI process", e)
+            }
+        }
+        
         return state
     }
 
