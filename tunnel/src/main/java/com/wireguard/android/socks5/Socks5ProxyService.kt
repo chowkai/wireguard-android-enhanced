@@ -104,6 +104,7 @@ class Socks5ProxyService {
         var remoteSocket: Socket? = null
         try {
             // 连接到远程 SOCKS5 服务器 (通过 WireGuard 隧道)
+            // 注意：这个 socket 会被 VpnService.protect() 保护，流量走 WireGuard 隧道
             remoteSocket = Socket(config.server, config.port)
             Log.d(TAG, "Connected to remote SOCKS5: ${config.getProxyAddress()}")
             
