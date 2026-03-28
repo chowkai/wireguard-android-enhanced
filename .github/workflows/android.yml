@@ -30,9 +30,9 @@ jobs:
     - name: Initialize submodules
       run: git submodule update --init --recursive
 
-    - name: Build Release APK
-      run: ./gradlew assembleRelease --no-daemon --stacktrace
-      id: release_build
+    - name: Build Debug APK (auto-signed)
+      run: ./gradlew assembleDebug --no-daemon --stacktrace
+      id: debug_build
 
     - name: List APK outputs
       run: |
@@ -48,14 +48,12 @@ jobs:
         echo "=== All APKs ==="
         find . -name "*.apk" -type f 2>/dev/null || echo "No APKs found"
 
-    - name: Find and Upload APKs
-      if: always()
+    - name: Upload Debug APKs
+      if: steps.debug_build.outcome == 'success'
       uses: actions/upload-artifact@v4
       with:
-        name: wireguard-apks
+        name: wireguard-debug-apks
         path: |
-          **/build/outputs/apk/**/*.apk
-          **/build/outputs/**/*.apk
+          **/build/outputs/apk/debug/*debug*.apk
         retention-days: 30
         if-no-files-found: warn
-# Trigger rebuild
