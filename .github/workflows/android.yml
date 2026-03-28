@@ -33,7 +33,10 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build with Gradle
-      run: ./gradlew assembleDebug --stacktrace --info --no-daemon
+      run: |
+        ./gradlew assembleDebug --stacktrace --info --no-daemon
+        echo "Listing APK outputs..."
+        find . -name "*.apk" -type f
       id: build_attempt
 
     - name: Upload build log on failure
