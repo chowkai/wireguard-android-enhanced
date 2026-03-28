@@ -27,15 +27,17 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Build UI APK
-      run: ./gradlew :ui:assembleDebug --no-daemon --stacktrace
-      continue-on-error: true
-      id: ui_build
+    - name: Initialize submodules
+      run: git submodule update --init --recursive
 
-    - name: Build Tunnel APK
-      run: ./gradlew :tunnel:assembleDebug --no-daemon --stacktrace
-      continue-on-error: true
-      id: tunnel_build
+    - name: Build Release APK
+      run: ./gradlew assembleRelease --no-daemon --stacktrace
+      id: release_build
+
+    - name: List APK outputs
+      run: |
+        echo "=== All APKs ==="
+        find . -name "*.apk" -type f 2>/dev/null | head -20
 
     - name: List APK outputs
       run: |
@@ -46,20 +48,13 @@ jobs:
         echo "=== All APKs ==="
         find . -name "*.apk" -type f 2>/dev/null || echo "No APKs found"
 
-    - name: Upload UI APK
-      if: steps.ui_build.outcome == 'success'
+    - name: Find and Upload APKs
+      if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: wireguard-ui-debug
-        path: ui/build/outputs/apk/debug/*.apk
+        name: wireguard-apks
+        path: |
+          **/build/outputs/apk/**/*.apk
+          **/build/outputs/**/*.apk
         retention-days: 30
-        if-no-files-found: ignore
-
-    - name: Upload Tunnel APK
-      if: steps.tunnel_build.outcome == 'success'
-      uses: actions/upload-artifact@v4
-      with:
-        name: wireguard-tunnel-debug
-        path: tunnel/build/outputs/apk/debug/*.apk
-        retention-days: 30
-        if-no-files-found: ignore
+        if-no-files-found: warn
