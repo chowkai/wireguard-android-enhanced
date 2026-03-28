@@ -186,14 +186,26 @@ class Socks5ProxyService {
                 // 双向转发数据
                 val clientToRemote = Thread {
                     try {
-                        clientIn.copyTo(remoteOut)
+                        val buffer = ByteArray(4096)
+                        while (isRunning) {
+                            val len = clientIn.read(buffer)
+                            if (len <= 0) break
+                            remoteOut.write(buffer, 0, len)
+                            remoteOut.flush()
+                        }
                     } catch (e: IOException) {
                         Log.d(TAG, "Client to remote ended")
                     }
                 }
                 val remoteToClient = Thread {
                     try {
-                        remoteIn.copyTo(clientOut)
+                        val buffer = ByteArray(4096)
+                        while (isRunning) {
+                            val len = remoteIn.read(buffer)
+                            if (len <= 0) break
+                            clientOut.write(buffer, 0, len)
+                            clientOut.flush()
+                        }
                     } catch (e: IOException) {
                         Log.d(TAG, "Remote to client ended")
                     }
