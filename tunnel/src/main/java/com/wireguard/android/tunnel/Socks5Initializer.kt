@@ -52,23 +52,18 @@ object Socks5Initializer {
                 
                 if (success) {
                     Log.i(TAG, "=========================================")
-                    Log.i(TAG, "✓ SOCKS5 PROXY STARTED")
-                    Log.i(TAG, "✓ Server: ${config.getProxyAddress()}")
-                    Log.i(TAG, "✓ Traffic: App → SOCKS5 → WireGuard → Internet")
+                    Log.i(TAG, "✓ LOCAL SOCKS5 PROXY STARTED")
+                    Log.i(TAG, "✓ Listen: 127.0.0.1:11080")
+                    Log.i(TAG, "✓ Remote: ${config.getProxyAddress()}")
+                    Log.i(TAG, "✓ Traffic: App → Local:11080 → WireGuard → Remote:1080 → Internet")
                     Log.i(TAG, "=========================================")
-                    
-                    // 设置 Java 系统属性，让所有 HTTP/HTTPS 流量走 SOCKS5
-                    System.setProperty("socksProxy", config.server)
-                    System.setProperty("socksPort", config.port.toString())
-                    
-                    // 如果 SOCKS5 需要认证
-                    if (config.requiresAuthentication()) {
-                        Log.i(TAG, "✓ Authentication: enabled")
-                        System.setProperty("java.net.socks.username", config.username)
-                        System.setProperty("java.net.socks.password", config.password)
-                    } else {
-                        Log.i(TAG, "✓ Authentication: none")
-                    }
+                    Log.i(TAG, "")
+                    Log.i(TAG, "配置说明:")
+                    Log.i(TAG, "1. 在支持 SOCKS5 的应用中配置代理:")
+                    Log.i(TAG, "   服务器：127.0.0.1")
+                    Log.i(TAG, "   端口：11080")
+                    Log.i(TAG, "2. 或使用支持系统代理的应用")
+                    Log.i(TAG, "=========================================")
                 } else {
                     Log.e(TAG, "✗ Failed to start SOCKS5 proxy")
                 }
